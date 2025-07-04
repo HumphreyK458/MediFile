@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediFile - Healthcare Management Platform</title>
+    <meta name="description" content="Secure healthcare management platform for professionals, administrators, and patients. Streamline workflows with patient profiles, medical history, appointments, and prescriptions.">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            background: linear-gradient(135deg, #e0f7fa 0%, #f4f9fd 100%);
+            color: #1e293b;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            background: #10b981;
+            color: #fff;
+            box-shadow: 0 2px 12px rgba(16, 185, 129, 0.08);
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 24px;
+        }
+        .nav-logo {
+            font-size: 1.7rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .nav-logo i {
+            color: #fff;
+        }
+        .nav-menu {
+            list-style: none;
+            display: flex;
+            gap: 28px;
+            margin: 0;
+            padding: 0;
+        }
+        .nav-link {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.05rem;
+            transition: color 0.2s;
+        }
+        .nav-link.active,
+        .nav-link:hover {
+            color: #064e3b;
+        }
+        .nav-auth button {
+            margin-left: 12px;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 18px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-login {
+            background: #fff;
+            color: #10b981;
+        }
+        .btn-login:hover {
+            background: #d1fae5;
+        }
+        .btn-signup {
+            background: #2563eb;
+            color: #fff;
+        }
+        .btn-signup:hover {
+            background: #1e40af;
+        }
+        .hero {
+            background: linear-gradient(120deg, #d1fae5 0%, #f4f9fd 100%);
+            padding: 80px 0 60px 0;
+        }
+        .hero-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 40px;
+        }
+        .hero-content {
+            flex: 1;
+        }
+        .hero-title {
+            font-size: 3rem;
+            color: #10b981;
+            font-weight: 900;
+            margin-bottom: 18px;
+        }
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: #047857;
+            margin-bottom: 32px;
+            font-weight: 500;
+        }
+        .hero-buttons {
+            display: flex;
+            gap: 18px;
+        }
+        .btn-primary {
+            background: linear-gradient(90deg, #10b981 0%, #34d399 100%);
+            color: #fff;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: background 0.3s;
+            box-shadow: 0 2px 8px rgba(16,185,129,0.08);
+        }
+        .btn-primary:hover {
+            background: linear-gradient(90deg, #34d399 0%, #10b981 100%);
+        }
+        .btn-secondary {
+            background: #fff;
+            color: #10b981;
+            border: 2px solid #10b981;
+            padding: 16px 32px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: background 0.3s, color 0.3s;
+        }
+        .btn-secondary:hover {
+            background: #10b981;
+            color: #fff;
+        }
+        .hero-image {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .hero-graphic i {
+            font-size: 3.5rem;
+            color: #10b981;
+            margin: 0 12px;
+        }
+        .hero-graphic i.fa-hospital {
+            color: #2563eb;
+        }
+        .hero-graphic i.fa-prescription-bottle-alt {
+            color: #38bdf8;
+        }
+        .section-header h2 {
+            color: #10b981;
+            font-size: 2.2rem;
+            font-weight: 900;
+            margin-bottom: 10px;
+        }
+        .section-header p {
+            color: #047857;
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 30px;
+        }
+        .services {
+            background: #fff;
+            padding: 60px 0;
+        }
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 32px;
+        }
+        .service-card {
+            background: #d1fae5;
+            border-radius: 14px;
+            box-shadow: 0 2px 8px rgba(16,185,129,0.04);
+            padding: 32px 24px;
+            text-align: left;
+            border: 1.5px solid #10b981;
+            transition: box-shadow 0.2s, border-color 0.2s;
+        }
+        .service-card:hover {
+            border-color: #2563eb;
+            box-shadow: 0 4px 16px rgba(37,99,235,0.08);
+        }
+        .service-icon {
+            font-size: 2.2rem;
+            color: #10b981;
+            margin-bottom: 16px;
+        }
+        .service-card h3 {
+            color: #2563eb;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+        .service-card p {
+            color: #64748b;
+            font-size: 1rem;
+            margin-bottom: 12px;
+        }
+        .service-card ul {
+            padding-left: 18px;
+            color: #2563eb;
+            font-size: 0.98rem;
+            margin: 0;
+        }
+        .service-card li {
+            margin-bottom: 4px;
+        }
+        .find-doctor {
+            background: #f8fafc;
+            padding: 60px 0;
+        }
+        .doctor-search {
+            background: #fff;
+            border-radius: 14px;
+            box-shadow: 0 2px 8px rgba(16,185,129,0.04);
+            padding: 32px 24px;
+            border: 1.5px solid #10b981;
+        }
+        .search-form {
+            margin-bottom: 24px;
+        }
+        .search-row {
+            display: flex;
+            gap: 18px;
+            align-items: flex-end;
+        }
+        .search-field label {
+            color: #2563eb;
+            font-weight: 700;
+            margin-bottom: 6px;
+            display: block;
+        }
+        .search-field input,
+        .search-field select {
+            border: 1.5px solid #10b981;
+            border-radius: 8px;
+            font-size: 1rem;
+            padding: 10px;
+            background: #fff;
+            transition: border-color 0.3s;
+            width: 180px;
+        }
+        .btn-search {
+            background: #10b981;
+            color: #fff;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-search:hover {
+            background: #2563eb;
+        }
+        .doctor-results {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+        .doctor-card {
+            background: #d1fae5;
+            border-radius: 12px;
+            border: 1.5px solid #10b981;
+            box-shadow: 0 2px 8px rgba(16,185,129,0.04);
+            padding: 24px 18px;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            min-width: 320px;
+            flex: 1 1 320px;
+        }
+        .doctor-avatar i {
+            font-size: 2.5rem;
+            color: #2563eb;
+        }
+        .doctor-info h4 {
+            color: #2563eb;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+        .doctor-info .specialty {
+            color: #10b981;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+        .doctor-info .location {
+            color: #64748b;
+            font-size: 0.98rem;
+            margin-bottom: 4px;
+        }
+        .rating {
+            color: #f59e42;
+            font-size: 1rem;
+            margin-bottom: 2px;
+        }
+        .btn-book {
+            background: #2563eb;
+            color: #fff;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-book:hover {
+            background: #10b981;
+        }
+        .about {
+            background: #fff;
+            padding: 60px 0;
+        }
+        .about-content {
+            display: flex;
+            gap: 40px;
+            align-items: flex-start;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .about-text {
+            flex: 2;
+        }
+        .about-text h2 {
+            color: #10b981;
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: 10px;
+        }
+        .about-text p {
+            color: #64748b;
+            font-size: 1.1rem;
+            margin-bottom: 18px;
+        }
+        .about-features {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #10b981;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+        .about-stats {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+        .stat {
+            background: #d1fae5;
+            border-radius: 10px;
+            padding: 18px 10px;
+            text-align: center;
+            border: 1.5px solid #10b981;
+        }
+        .stat-number {
+            color: #2563eb;
+            font-size: 1.5rem;
+            font-weight: 900;
+        }
+        .stat-label {
+            color: #64748b;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        .contact {
+            background: #f8fafc;
+            padding: 60px 0;
+        }
+        .contact-content {
+            display: flex;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .contact-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        .contact-item {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+        .contact-icon i {
+            font-size: 2rem;
+            color: #10b981;
+        }
+        .contact-details h4 {
+            color: #2563eb;
+            font-weight: 800;
+            margin-bottom: 2px;
+        }
+        .contact-details p {
+            color: #64748b;
+            font-size: 1rem;
+            margin: 0;
+        }
+        .contact-form {
+            flex: 2;
+            background: #fff;
+            border-radius: 14px;
+            box-shadow: 0 2px 8px rgba(16,185,129,0.04);
+            padding: 32px 24px;
+            border: 1.5px solid #10b981;
+        }
+        .contact-form .form-row {
+            display: flex;
+            gap: 18px;
+        }
+        .contact-form .form-group {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 16px;
+        }
+        .contact-form label {
+            color: #2563eb;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .contact-form input,
+        .contact-form select,
+        .contact-form textarea {
+            border: 1.5px solid #10b981;
+            border-radius: 8px;
+            font-size: 1rem;
+            padding: 10px;
+            background: #fff;
+            transition: border-color 0.3s;
+        }
+        .contact-form input:focus,
+        .contact-form select:focus,
+        .contact-form textarea:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 2px #bae6fd;
+        }
+        .contact-form textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        .btn-submit {
+            background: linear-gradient(90deg, #10b981 0%, #2563eb 100%);
+            color: #fff;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: background 0.3s;
+            box-shadow: 0 2px 8px rgba(16,185,129,0.08);
+        }
+        .btn-submit:hover {
+            background: linear-gradient(90deg, #2563eb 0%, #10b981 100%);
+        }
+        .footer {
+            background: #10b981;
+            color: #fff;
+            padding: 40px 0 0 0;
+        }
+        .footer-content {
+            display: flex;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+        .footer-section {
+            flex: 1 1 200px;
+            margin-bottom: 24px;
+        }
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.3rem;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+        .footer-section h4 {
+            color: #d1fae5;
+            font-size: 1.1rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .footer-section ul li {
+            margin-bottom: 6px;
+        }
+        .footer-section ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+        .footer-section ul li a:hover {
+            color: #2563eb;
+        }
+        .social-links a {
+            color: #d1fae5;
+            font-size: 1.2rem;
+            margin-right: 10px;
+            transition: color 0.2s;
+        }
+        .social-links a:hover {
+            color: #2563eb;
+        }
+        .footer-bottom {
+            text-align: center;
+            padding: 18px 0;
+            color: #d1fae5;
+            font-size: 0.98rem;
+            border-top: 1px solid #047857;
+            margin-top: 20px;
+        }
+        @media (max-width: 1100px) {
+            .hero-container,
+            .about-content,
+            .contact-content,
+            .footer-content {
+                flex-direction: column;
+                gap: 24px;
+                align-items: flex-start;
+            }
+            .hero-image {
+                margin-top: 32px;
+            }
+        }
+        @media (max-width: 900px) {
+            .services-grid,
+            .about-stats {
+                grid-template-columns: 1fr;
+            }
+            .doctor-results {
+                flex-direction: column;
+            }
+        }
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 12px;
+            }
+            .hero {
+                padding: 40px 0 30px 0;
+            }
+            .hero-title {
+                font-size: 2rem;
+            }
+            .section-header h2 {
+                font-size: 1.5rem;
+            }
+            .about-content,
+            .contact-content,
+            .footer-content {
+                flex-direction: column;
+                gap: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-heartbeat"></i>
+                <span>MediFile</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="home.html#home" class="nav-link active">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="home.html#services" class="nav-link">Services</a>
+                </li>
+                <li class="nav-item">
+                    <a href="home.html#find-doctor" class="nav-link">Find Doctor</a>
+                </li>
+                <li class="nav-item">
+                    <a href="home.html#about" class="nav-link">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a href="contact_us.html" class="nav-link">Contact Us</a>
+                </li>
+                <li class="nav-item">
+                    <a href="appointments.html" class="nav-link">Appointments</a>
+                </li>
+                <li class="nav-item">
+                    <a href="prescriptions.html" class="nav-link">Prescriptions</a>
+                </li>
+                <li class="nav-item">
+                    <a href="medical_history_dr.html" class="nav-link">Medical History (Doctor)</a>
+                </li>
+                <li class="nav-item">
+                    <a href="medical_history_pa.html" class="nav-link">Medical History (Patient)</a>
+                </li>
+            </ul>
+            <div class="nav-auth">
+                <button class="btn-login" onclick="window.location.href='Signin_login.html#login'">Login</button>
+                <button class="btn-signup" onclick="window.location.href='Signin_login.html#signup'">Sign Up</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">Secure Healthcare Management Platform</h1>
+                <p class="hero-subtitle">Streamline workflows and enhance accessibility for healthcare professionals, administrators, and patients with our comprehensive digital health solution.</p>
+                <div class="hero-buttons">
+                    <button class="btn-primary" onclick="window.location.href='Signin_login.html#signup'">Get Started</button>
+                    <button class="btn-secondary" onclick="window.location.href='home.html#services'">Learn More</button>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="hero-graphic">
+                    <i class="fas fa-user-md"></i>
+                    <i class="fas fa-hospital"></i>
+                    <i class="fas fa-prescription-bottle-alt"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <div class="container">
+            <div class="section-header">
+                <h2>Our Services</h2>
+                <p>Comprehensive healthcare management solutions for all stakeholders</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-user-injured"></i>
+                    </div>
+                    <h3>Patient Health Profiles</h3>
+                    <p>Comprehensive digital health records with secure access controls and real-time updates.</p>
+                    <ul>
+                        <li>Complete medical history</li>
+                        <li>Lab results and imaging</li>
+                        <li>Medication tracking</li>
+                        <li>Vital signs monitoring</li>
+                    </ul>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <h3>Appointment Scheduling</h3>
+                    <p>Intelligent scheduling system with automated reminders and availability management.</p>
+                    <ul>
+                        <li>Online booking system</li>
+                        <li>Automated reminders</li>
+                        <li>Resource optimization</li>
+                        <li>Calendar integration</li>
+                    </ul>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-prescription"></i>
+                    </div>
+                    <h3>Prescription Management</h3>
+                    <p>Digital prescription system with drug interaction checks and pharmacy integration.</p>
+                    <ul>
+                        <li>Electronic prescriptions</li>
+                        <li>Drug interaction alerts</li>
+                        <li>Pharmacy integration</li>
+                        <li>Refill management</li>
+                    </ul>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Security & Compliance</h3>
+                    <p>HIPAA-compliant platform with advanced security measures and audit trails.</p>
+                    <ul>
+                        <li>Two-factor authentication</li>
+                        <li>Data encryption</li>
+                        <li>Access controls</li>
+                        <li>Audit logging</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Find Doctor Section -->
+    <section id="find-doctor" class="find-doctor">
+        <div class="container">
+            <div class="section-header">
+                <h2>Find a Doctor</h2>
+                <p>Connect with qualified healthcare professionals in your area</p>
+            </div>
+            <div class="doctor-search">
+                <div class="search-form">
+                    <div class="search-row">
+                        <div class="search-field">
+                            <label for="specialty">Specialty</label>
+                            <select id="specialty">
+                                <option value="">Select Specialty</option>
+                                <option value="cardiology">Cardiology</option>
+                                <option value="dermatology">Dermatology</option>
+                                <option value="endocrinology">Endocrinology</option>
+                                <option value="neurology">Neurology</option>
+                                <option value="oncology">Oncology</option>
+                                <option value="orthopedics">Orthopedics</option>
+                                <option value="pediatrics">Pediatrics</option>
+                                <option value="psychiatry">Psychiatry</option>
+                            </select>
+                        </div>
+                        <div class="search-field">
+                            <label for="location">Location</label>
+                            <input type="text" id="location" placeholder="Enter city or ZIP code">
+                        </div>
+                        <div class="search-field">
+                            <label for="insurance">Insurance</label>
+                            <select id="insurance">
+                                <option value="">Select Insurance</option>
+                                <option value="aetna">Aetna</option>
+                                <option value="blue-cross">Blue Cross Blue Shield</option>
+                                <option value="cigna">Cigna</option>
+                                <option value="humana">Humana</option>
+                                <option value="medicare">Medicare</option>
+                                <option value="medicaid">Medicaid</option>
+                            </select>
+                        </div>
+                        <button class="btn-search" onclick="searchDoctors()">
+                            <i class="fas fa-search"></i>
+                            Search
+                        </button>
+                    </div>
+                </div>
+                <div class="doctor-results" id="doctorResults">
+                    <div class="doctor-card">
+                        <div class="doctor-avatar">
+                            <i class="fas fa-user-md"></i>
+                        </div>
+                        <div class="doctor-info">
+                            <h4>Dr. Humphrey K.</h4>
+                            <p class="specialty">Cardiologist</p>
+                            <p class="location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Cape Town, CPT
+                            </p>
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <span>4.9 (127 reviews)</span>
+                            </div>
+                        </div>
+                        <button class="btn-book">Book Appointment</button>
+                    </div>
+                    <div class="doctor-card">
+                        <div class="doctor-avatar">
+                            <i class="fas fa-user-md"></i>
+                        </div>
+                        <div class="doctor-info">
+                            <h4>Dr. Tommy Chidima</h4>
+                            <p class="specialty">Neurologist</p>
+                            <p class="location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Gauteng, GP
+                            </p>
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <span>4.8 (98 reviews)</span>
+                            </div>
+                        </div>
+                        <button class="btn-book">Book Appointment</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>About MediFile</h2>
+                    <p>MediFile is a cutting-edge healthcare management platform designed to bridge the gap between healthcare providers, administrators, and patients. Our mission is to streamline healthcare workflows while maintaining the highest standards of security and privacy.</p>
+                    <div class="about-features">
+                        <div class="feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>HIPAA Compliant</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>24/7 Support</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Cloud-Based</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Mobile Responsive</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-stats">
+                    <div class="stat">
+                        <div class="stat-number">50,000+</div>
+                        <div class="stat-label">Active Patients</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">2,500+</div>
+                        <div class="stat-label">Healthcare Providers</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">99.9%</div>
+                        <div class="stat-label">Uptime</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">5 Years</div>
+                        <div class="stat-label">In Service</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-heartbeat"></i>
+                        <span>MediFile</span>
+                    </div>
+                    <p>Secure healthcare management platform designed for the modern healthcare ecosystem.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Platform</h4>
+                    <ul>
+                        <li><a href="home.html#services">Services</a></li>
+                        <li><a href="home.html#find-doctor">Find Doctor</a></li>
+                        <li><a href="#">Patient Portal</a></li>
+                        <li><a href="#">Provider Portal</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="home.html#contact">Contact Us</a></li>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">Status Page</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">HIPAA Compliance</a></li>
+                        <li><a href="#">Security</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 MediFile. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    <script>
+        // Demo contact form handler
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for contacting us! We will get back to you shortly.');
+            document.getElementById('contactForm').reset();
+        });
+
+        // Smooth scroll for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            });
+        });
+
+        // Scroll reveal animations
+        const sr = ScrollReveal({
+            origin: 'bottom',
+            distance: '30px',
+            duration: 600,
+            delay: 100,
+            reset: true
+        });
+
+        sr.reveal('.section-header', { interval: 100 });
+        sr.reveal('.service-card, .doctor-card, .about-text, .contact-info, .footer-section', { interval: 150 });
+    </script>
+</body>
+</html>

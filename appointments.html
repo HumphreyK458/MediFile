@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule Appointment - MediFile</title>
+    <meta name="description" content="Book medical appointments online with MediFile. Schedule with healthcare providers, choose time slots, and manage your appointments securely.">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Nunito Sans', 'Inter', Arial, sans-serif;
+            background: linear-gradient(135deg, #e0f7fa 0%, #f4f9fd 100%);
+            color: #1e293b;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            background: #10b981;
+            color: #fff;
+            box-shadow: 0 2px 12px rgba(16, 185, 129, 0.08);
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 24px;
+        }
+        .nav-logo {
+            font-size: 1.7rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .nav-logo i {
+            color: #fff;
+        }
+        .nav-menu {
+            list-style: none;
+            display: flex;
+            gap: 28px;
+            margin: 0;
+            padding: 0;
+        }
+        .nav-link {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.05rem;
+            transition: color 0.2s;
+        }
+        .nav-link.active,
+        .nav-link:hover {
+            color: #064e3b;
+        }
+        .nav-auth button {
+            margin-left: 12px;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 18px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-login {
+            background: #fff;
+            color: #10b981;
+        }
+        .btn-login:hover {
+            background: #d1fae5;
+        }
+        .btn-signup {
+            background: #2563eb;
+            color: #fff;
+        }
+        .btn-signup:hover {
+            background: #1e40af;
+        }
+        .appointment-container {
+            background: #fff;
+            border-radius: 22px;
+            box-shadow: 0 8px 32px rgba(16, 185, 129, 0.10);
+            max-width: 1000px;
+            margin: 80px auto 40px;
+            padding: 0 20px 40px 20px;
+            border: 1px solid #e0e7ef;
+        }
+        .appointment-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .appointment-header h1 {
+            font-size: 38px;
+            color: #10b981;
+            margin-bottom: 16px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+        }
+        .appointment-header h1 i {
+            color: #2563eb;
+            font-size: 38px;
+        }
+        .appointment-header p {
+            font-size: 18px;
+            color: #047857;
+            max-width: 600px;
+            margin: 0 auto;
+            font-weight: 500;
+        }
+        .appointment-form {
+            background: #f8fafc;
+            border-radius: 18px;
+            padding: 36px;
+            box-shadow: 0 4px 16px rgba(16, 185, 129, 0.06);
+            margin-bottom: 30px;
+            border: 1px solid #e0e7ef;
+        }
+        .form-section {
+            margin-bottom: 30px;
+        }
+        .form-section h3 {
+            font-size: 22px;
+            color: #10b981;
+            font-weight: 800;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 18px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+        .form-group label {
+            font-weight: 700;
+            color: #2563eb;
+            margin-bottom: 8px;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 12px;
+            border: 1.5px solid #10b981;
+            border-radius: 8px;
+            font-size: 16px;
+            background: #fff;
+            transition: border-color 0.3s;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 2px #bae6fd;
+        }
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .time-slot {
+            padding: 12px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #e3f0fb;
+            color: #2563eb;
+            font-weight: 700;
+        }
+        .time-slot:hover {
+            border-color: #10b981;
+            background: #d1fae5;
+            color: #10b981;
+        }
+        .time-slot.selected {
+            border-color: #10b981;
+            background: #10b981;
+            color: #fff;
+        }
+        .time-slot.unavailable {
+            background: #f3f4f6;
+            color: #9ca3af;
+            cursor: not-allowed;
+            border-color: #e5e7eb;
+        }
+        .time-slot.unavailable:hover {
+            background: #f3f4f6;
+            color: #9ca3af;
+            border-color: #e5e7eb;
+        }
+        .appointment-summary {
+            background: #e0f2fe;
+            padding: 28px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border: 1.5px solid #bae6fd;
+            box-shadow: 0 2px 8px rgba(16,185,129,0.04);
+        }
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .summary-item:last-child {
+            border-bottom: none;
+            font-weight: 800;
+            color: #2563eb;
+        }
+        .btn-book-appointment {
+            background: linear-gradient(90deg, #10b981 0%, #2563eb 100%);
+            color: #fff;
+            border: none;
+            padding: 18px 36px;
+            border-radius: 12px;
+            font-size: 19px;
+            font-weight: 800;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 24px;
+            transition: background 0.3s;
+            box-shadow: 0 2px 8px rgba(16,185,129,0.08);
+        }
+        .btn-book-appointment:hover {
+            background: linear-gradient(90deg, #2563eb 0%, #10b981 100%);
+        }
+        .btn-book-appointment:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+        }
+        @media (max-width: 900px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .time-slots {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 768px) {
+            .appointment-container {
+                padding: 0 5px 30px 5px;
+            }
+            .nav-container {
+                flex-direction: column;
+                gap: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-heartbeat"></i>
+                <span>MediFile</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="home.html#home" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="home.html#services" class="nav-link">Services</a>
+                </li>
+                <li class="nav-item">
+                    <a href="home.html#find-doctor" class="nav-link">Find Doctor</a>
+                </li>
+                <li class="nav-item">
+                    <a href="appointments.html" class="nav-link active">Appointments</a>
+                </li>
+                <li class="nav-item">
+                    <a href="prescriptions.html" class="nav-link">Prescriptions</a>
+                </li>
+            </ul>
+            <div class="nav-auth">
+                <button class="btn-login" onclick="window.location.href='Signin_login.html#login'">Login</button>
+                <button class="btn-signup" onclick="window.location.href='Signin_login.html#signup'">Sign Up</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Appointment Booking Section -->
+    <div class="appointment-container">
+        <div class="appointment-header">
+            <h1><i class="fas fa-calendar-check"></i> Schedule Your Appointment</h1>
+            <p>Book your medical appointment quickly and securely. Choose your preferred doctor, date, and time slot that works best for you.</p>
+        </div>
+
+        <form class="appointment-form" id="appointmentForm">
+            <!-- Doctor Selection -->
+            <div class="form-section">
+                <h3><i class="fas fa-user-md"></i> Select Healthcare Provider</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="specialty">Specialty</label>
+                        <select id="specialty" name="specialty" required>
+                            <option value="">Select Specialty</option>
+                            <option value="cardiology">Cardiology</option>
+                            <option value="dermatology">Dermatology</option>
+                            <option value="neurology">Neurology</option>
+                            <option value="pediatrics">Pediatrics</option>
+                            <option value="orthopedics">Orthopedics</option>
+                            <option value="psychiatry">Psychiatry</option>
+                            <option value="general">General Practice</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="doctor">Doctor</label>
+                        <select id="doctor" name="doctor" required>
+                            <option value="">First select a specialty</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Patient Information -->
+            <div class="form-section">
+                <h3><i class="fas fa-user"></i> Patient Information</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <input type="text" id="firstName" name="firstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" id="lastName" name="lastName" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="dateOfBirth">Date of Birth</label>
+                        <input type="date" id="dateOfBirth" name="dateOfBirth" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="insurance">Insurance Provider</label>
+                        <select id="insurance" name="insurance">
+                            <option value="">Select Insurance</option>
+                            <option value="blue-cross">Blue Cross Blue Shield</option>
+                            <option value="aetna">Aetna</option>
+                            <option value="cigna">Cigna</option>
+                            <option value="united">UnitedHealth</option>
+                            <option value="kaiser">Kaiser Permanente</option>
+                            <option value="other">Other</option>
+                            <option value="self-pay">Self Pay</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Appointment Details -->
+            <div class="form-section">
+                <h3><i class="fas fa-calendar-alt"></i> Appointment Details</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="appointmentDate">Preferred Date</label>
+                        <input type="date" id="appointmentDate" name="appointmentDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="appointmentType">Appointment Type</label>
+                        <select id="appointmentType" name="appointmentType" required>
+                            <option value="">Select Type</option>
+                            <option value="consultation">Consultation</option>
+                            <option value="follow-up">Follow-up</option>
+                            <option value="routine-checkup">Routine Checkup</option>
+                            <option value="urgent-care">Urgent Care</option>
+                            <option value="telemedicine">Telemedicine</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Available Time Slots</label>
+                    <div class="time-slots" id="timeSlots">
+                        <div class="time-slot" data-time="09:00">9:00 AM</div>
+                        <div class="time-slot" data-time="09:30">9:30 AM</div>
+                        <div class="time-slot" data-time="10:00">10:00 AM</div>
+                        <div class="time-slot unavailable" data-time="10:30">10:30 AM</div>
+                        <div class="time-slot" data-time="11:00">11:00 AM</div>
+                        <div class="time-slot" data-time="11:30">11:30 AM</div>
+                        <div class="time-slot" data-time="14:00">2:00 PM</div>
+                        <div class="time-slot" data-time="14:30">2:30 PM</div>
+                        <div class="time-slot" data-time="15:00">3:00 PM</div>
+                        <div class="time-slot unavailable" data-time="15:30">3:30 PM</div>
+                        <div class="time-slot" data-time="16:00">4:00 PM</div>
+                        <div class="time-slot" data-time="16:30">4:30 PM</div>
+                    </div>
+                </div>
+                <div class="form-group full-width">
+                    <label for="reason">Reason for Visit</label>
+                    <textarea id="reason" name="reason" placeholder="Please describe your symptoms or reason for the appointment"></textarea>
+                </div>
+            </div>
+
+            <!-- Appointment Summary -->
+            <div class="appointment-summary" id="appointmentSummary" style="display: none;">
+                <h3>Appointment Summary</h3>
+                <div class="summary-item">
+                    <span>Doctor:</span>
+                    <span id="summaryDoctor">-</span>
+                </div>
+                <div class="summary-item">
+                    <span>Date:</span>
+                    <span id="summaryDate">-</span>
+                </div>
+                <div class="summary-item">
+                    <span>Time:</span>
+                    <span id="summaryTime">-</span>
+                </div>
+                <div class="summary-item">
+                    <span>Type:</span>
+                    <span id="summaryType">-</span>
+                </div>
+                <div class="summary-item">
+                    <span>Estimated Cost:</span>
+                    <span id="summaryCost">$150.00</span>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-book-appointment" disabled>
+                <i class="fas fa-calendar-plus"></i> Book Appointment
+            </button>
+        </form>
+    </div>
+
+    <script>
+        // Doctor data by specialty
+        const doctorsBySpecialty = {
+            cardiology: [
+                { name: "Dr. Sarah Johnson", id: "dr-johnson" },
+                { name: "Dr. Michael Chen", id: "dr-chen" },
+                { name: "Dr. Emily Rodriguez", id: "dr-rodriguez" }
+            ],
+            dermatology: [
+                { name: "Dr. Amanda Wilson", id: "dr-wilson" },
+                { name: "Dr. David Kim", id: "dr-kim" }
+            ],
+            neurology: [
+                { name: "Dr. Robert Thompson", id: "dr-thompson" },
+                { name: "Dr. Lisa Patel", id: "dr-patel" }
+            ],
+            pediatrics: [
+                { name: "Dr. Jennifer Garcia", id: "dr-garcia" },
+                { name: "Dr. Kevin Lee", id: "dr-lee" }
+            ],
+            orthopedics: [
+                { name: "Dr. Christopher Davis", id: "dr-davis" },
+                { name: "Dr. Maria Gonzalez", id: "dr-gonzalez" }
+            ],
+            psychiatry: [
+                { name: "Dr. Andrew Miller", id: "dr-miller" },
+                { name: "Dr. Rachel Brown", id: "dr-brown" }
+            ],
+            general: [
+                { name: "Dr. Thomas Anderson", id: "dr-anderson" },
+                { name: "Dr. Jessica Taylor", id: "dr-taylor" }
+            ]
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const specialtySelect = document.getElementById('specialty');
+            const doctorSelect = document.getElementById('doctor');
+            const appointmentForm = document.getElementById('appointmentForm');
+            const timeSlots = document.querySelectorAll('.time-slot');
+            const bookButton = document.querySelector('.btn-book-appointment');
+            const appointmentSummary = document.getElementById('appointmentSummary');
+            let selectedTimeSlot = null;
+
+            // Set minimum date to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('appointmentDate').min = today;
+
+            // Handle specialty change
+            specialtySelect.addEventListener('change', function() {
+                const specialty = this.value;
+                doctorSelect.innerHTML = '<option value="">Select a doctor</option>';
+                if (specialty && doctorsBySpecialty[specialty]) {
+                    doctorsBySpecialty[specialty].forEach(doctor => {
+                        const option = document.createElement('option');
+                        option.value = doctor.id;
+                        option.textContent = doctor.name;
+                        doctorSelect.appendChild(option);
+                    });
+                }
+                updateSummary();
+            });
+
+            // Handle time slot selection
+            timeSlots.forEach(slot => {
+                slot.addEventListener('click', function() {
+                    if (this.classList.contains('unavailable')) return;
+                    timeSlots.forEach(s => s.classList.remove('selected'));
+                    this.classList.add('selected');
+                    selectedTimeSlot = this.dataset.time;
+                    updateSummary();
+                });
+            });
+
+            // Handle form changes
+            const formInputs = appointmentForm.querySelectorAll('input, select, textarea');
+            formInputs.forEach(input => {
+                input.addEventListener('change', updateSummary);
+            });
+
+            function updateSummary() {
+                const doctor = doctorSelect.options[doctorSelect.selectedIndex]?.text || '-';
+                const date = document.getElementById('appointmentDate').value;
+                const appointmentType = document.getElementById('appointmentType').value;
+                document.getElementById('summaryDoctor').textContent = doctor;
+                document.getElementById('summaryDate').textContent = date ? new Date(date).toLocaleDateString() : '-';
+                document.getElementById('summaryTime').textContent = selectedTimeSlot ? convertTo12Hour(selectedTimeSlot) : '-';
+                document.getElementById('summaryType').textContent = appointmentType || '-';
+                if (doctor !== 'Select a doctor' && date && selectedTimeSlot && appointmentType) {
+                    appointmentSummary.style.display = 'block';
+                    bookButton.disabled = false;
+                } else {
+                    appointmentSummary.style.display = 'none';
+                    bookButton.disabled = true;
+                }
+            }
+
+            function convertTo12Hour(time24) {
+                const [hours, minutes] = time24.split(':');
+                const hour12 = hours % 12 || 12;
+                const ampm = hours < 12 ? 'AM' : 'PM';
+                return `${hour12}:${minutes} ${ampm}`;
+            }
+
+            // Handle form submission
+            appointmentForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                if (!selectedTimeSlot) {
+                    alert('Please select a time slot');
+                    return;
+                }
+                bookButton.disabled = true;
+                bookButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Booking...';
+                setTimeout(() => {
+                    alert('Appointment successfully booked! You will receive a confirmation email shortly.');
+                    bookButton.innerHTML = '<i class="fas fa-check"></i> Appointment Booked';
+                    setTimeout(() => {
+                        appointmentForm.reset();
+                        appointmentSummary.style.display = 'none';
+                        timeSlots.forEach(s => s.classList.remove('selected'));
+                        selectedTimeSlot = null;
+                        bookButton.disabled = true;
+                        bookButton.innerHTML = '<i class="fas fa-calendar-plus"></i> Book Appointment';
+                        doctorSelect.innerHTML = '<option value="">First select a specialty</option>';
+                    }, 3000);
+                }, 2000);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MediFile - Prescription Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Nunito Sans', 'Inter', Arial, sans-serif;
+            background: linear-gradient(135deg, #e0f7fa 0%, #f4f9fd 100%);
+            color: #1e293b;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            background: #10b981;
+            color: #fff;
+            box-shadow: 0 2px 12px rgba(16, 185, 129, 0.08);
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 24px;
+        }
+        .nav-logo {
+            font-size: 1.7rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .nav-logo i {
+            color: #fff;
+        }
+        .nav-menu {
+            list-style: none;
+            display: flex;
+            gap: 28px;
+            margin: 0;
+            padding: 0;
+        }
+        .nav-link {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.05rem;
+            transition: color 0.2s;
+        }
+        .nav-link.active,
+        .nav-link:hover {
+            color: #064e3b;
+        }
+        .nav-auth button {
+            margin-left: 12px;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 18px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-login {
+            background: #fff;
+            color: #10b981;
+        }
+        .btn-login:hover {
+            background: #d1fae5;
+        }
+        .btn-signup {
+            background: #2563eb;
+            color: #fff;
+        }
+        .btn-signup:hover {
+            background: #1e40af;
+        }
+        .prescription-container {
+            background: #fff;
+            border-radius: 22px;
+            box-shadow: 0 8px 32px rgba(16, 185, 129, 0.10);
+            max-width: 1200px;
+            margin: 80px auto 40px;
+            padding: 0 20px 40px 20px;
+            border: 1px solid #e0e7ef;
+        }
+        .prescription-header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        .prescription-header h1 {
+            font-size: 38px;
+            color: #10b981;
+            margin-bottom: 16px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+        }
+        .prescription-header h1 i {
+            color: #2563eb;
+            font-size: 38px;
+        }
+        .prescription-header p {
+            font-size: 18px;
+            color: #047857;
+            max-width: 600px;
+            margin: 0 auto;
+            font-weight: 500;
+        }
+        .prescription-tabs {
+            display: flex;
+            background: #d1fae5;
+            border-radius: 12px;
+            padding: 4px;
+            margin-bottom: 30px;
+            border: 1px solid #10b981;
+        }
+        .tab {
+            flex: 1;
+            padding: 16px 24px;
+            text-align: center;
+            background: transparent;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 800;
+            color: #10b981;
+            font-size: 17px;
+            transition: all 0.3s;
+        }
+        .tab.active {
+            background: #10b981;
+            color: #fff;
+            box-shadow: 0 2px 8px rgba(16,185,129,0.10);
+        }
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .prescription-form {
+            background: #f8fafc;
+            border-radius: 18px;
+            padding: 36px;
+            box-shadow: 0 4px 16px rgba(16, 185, 129, 0.06);
+            margin-bottom: 30px;
+            border: 1px solid #e0e7ef;
+        }
+        .form-section h3 {
+            color: #10b981;
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .form-group label {
+            color: #2563eb;
+            font-weight: 700;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            border: 1.5px solid #10b981;
+            border-radius: 8px;
+            font-size: 16px;
+            padding: 12px;
+            background: #fff;
+            transition: border-color 0.3s;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 2px #bae6fd;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 18px;
+        }
+        .medication-item {
+            background: #e0f7fa;
+            border-radius: 12px;
+            border: 1.5px solid #10b981;
+            margin-bottom: 15px;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(16,185,129,0.04);
+        }
+        .medication-info h4 {
+            color: #2563eb;
+            font-weight: 800;
+        }
+        .medication-info p {
+            color: #64748b;
+            font-size: 16px;
+        }
+        .medication-price {
+            color: #10b981;
+            font-size: 22px;
+            font-weight: 800;
+        }
+        .quantity-btn {
+            background: #bae6fd;
+            border: none;
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: #2563eb;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+        .quantity-btn:hover {
+            background: #38bdf8;
+            color: #fff;
+        }
+        .quantity-input {
+            width: 60px;
+            text-align: center;
+            padding: 8px;
+            border: 1.5px solid #10b981;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        .pharmacy-selection {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 18px;
+        }
+        .pharmacy-card {
+            border: 2px solid #bae6fd;
+            border-radius: 12px;
+            background: #f0f9ff;
+            transition: border-color 0.3s, background 0.3s;
+            box-shadow: 0 2px 8px rgba(16,185,129,0.04);
+            padding: 18px;
+            cursor: pointer;
+        }
+        .pharmacy-card.selected,
+        .pharmacy-card:hover {
+            border-color: #10b981;
+            background: #e0f2fe;
+        }
+        .pharmacy-name {
+            color: #2563eb;
+            font-weight: 800;
+            font-size: 18px;
+        }
+        .pharmacy-address {
+            color: #64748b;
+            font-size: 15px;
+        }
+        .pharmacy-hours {
+            color: #10b981;
+            font-size: 14px;
+        }
+        .order-summary {
+            background: #e0f2fe;
+            border-radius: 12px;
+            border: 1.5px solid #bae6fd;
+            padding: 28px;
+            margin-top: 20px;
+            box-shadow: 0 2px 8px rgba(16,185,129,0.04);
+        }
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .summary-row.total {
+            font-weight: 800;
+            font-size: 19px;
+            color: #2563eb;
+            border-top: 1px solid #e5e7eb;
+            padding-top: 10px;
+        }
+        .btn-order {
+            background: linear-gradient(90deg, #10b981 0%, #2563eb 100%);
+            color: #fff;
+            border: none;
+            padding: 18px 36px;
+            border-radius: 12px;
+            font-size: 19px;
+            font-weight: 800;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 24px;
+            transition: background 0.3s;
+            box-shadow: 0 2px 8px rgba(16,185,129,0.08);
+        }
+        .btn-order:hover {
+            background: linear-gradient(90deg, #2563eb 0%, #10b981 100%);
+        }
+        .btn-reorder {
+            background: #10b981;
+            color: #fff;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 700;
+            transition: background 0.2s;
+        }
+        .btn-reorder:hover {
+            background: #059669;
+        }
+        .status-badge {
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 800;
+            padding: 6px 18px;
+        }
+        .status-active {
+            background: #dcfce7;
+            color: #10b981;
+        }
+        .status-pending {
+            background: #fef3c7;
+            color: #f59e42;
+        }
+        .status-ready {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+        .search-results {
+            background: #fff;
+            border: 1px solid #10b981;
+            border-radius: 8px;
+            margin-top: 4px;
+            max-height: 180px;
+            overflow-y: auto;
+            box-shadow: 0 2px 8px rgba(16,185,129,0.08);
+            display: none;
+            position: absolute;
+            z-index: 10;
+            width: 100%;
+        }
+        .search-result {
+            padding: 10px 16px;
+            cursor: pointer;
+            color: #2563eb;
+        }
+        .search-result:hover {
+            background: #e0f2fe;
+        }
+        @media (max-width: 900px) {
+            .pharmacy-selection {
+                grid-template-columns: 1fr;
+            }
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+        @media (max-width: 768px) {
+            .prescription-container {
+                padding: 0 5px 30px 5px;
+            }
+            .nav-container {
+                flex-direction: column;
+                gap: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-heartbeat"></i>
+                <span>MediFile</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="home.html#home" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="home.html#services" class="nav-link">Services</a>
+                </li>
+                <li class="nav-item">
+                    <a href="home.html#find-doctor" class="nav-link">Find Doctor</a>
+                </li>
+                <li class="nav-item">
+                    <a href="appointments.html" class="nav-link">Appointments</a>
+                </li>
+                <li class="nav-item">
+                    <a href="prescriptions.html" class="nav-link active">Prescriptions</a>
+                </li>
+            </ul>
+            <div class="nav-auth">
+                <button class="btn-login" onclick="window.location.href='Signin_login.html#login'">Login</button>
+                <button class="btn-signup" onclick="window.location.href='Signin_login.html#signup'">Sign Up</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Prescription Management Section -->
+    <div class="prescription-container">
+        <div class="prescription-header">
+            <h1><i class="fas fa-notes-medical"></i> Prescription Management</h1>
+            <p>Order prescriptions online, track your medications, and manage refills securely through our integrated pharmacy network.</p>
+        </div>
+
+        <!-- Tabs -->
+        <div class="prescription-tabs">
+            <button class="tab active" onclick="switchTab(event, 'new-order')">
+                <i class="fas fa-plus"></i> New Order
+            </button>
+            <button class="tab" onclick="switchTab(event, 'my-prescriptions')">
+                <i class="fas fa-pills"></i> My Prescriptions
+            </button>
+            <button class="tab" onclick="switchTab(event, 'refills')">
+                <i class="fas fa-redo"></i> Refills
+            </button>
+        </div>
+
+        <!-- New Order Tab -->
+        <div id="new-order" class="tab-content active">
+            <form class="prescription-form" id="prescriptionForm" autocomplete="off">
+                <!-- Patient Information -->
+                <div class="form-section">
+                    <h3><i class="fas fa-user"></i> Patient Information</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="patientName">Full Name</label>
+                            <input type="text" id="patientName" name="patientName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="patientDOB">Date of Birth</label>
+                            <input type="date" id="patientDOB" name="patientDOB" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="patientInsurance">Insurance Provider</label>
+                            <select id="patientInsurance" name="patientInsurance">
+                                <option value="">Select Insurance</option>
+                                <option value="blue-cross">Blue Cross Blue Shield</option>
+                                <option value="aetna">Aetna</option>
+                                <option value="cigna">Cigna</option>
+                                <option value="united">UnitedHealth</option>
+                                <option value="kaiser">Kaiser Permanente</option>
+                                <option value="self-pay">Self Pay</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="prescribingDoctor">Prescribing Doctor</label>
+                            <input type="text" id="prescribingDoctor" name="prescribingDoctor" required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Medication Search -->
+                <div class="form-section" style="position:relative;">
+                    <h3><i class="fas fa-search"></i> Search Medication</h3>
+                    <div class="form-group medication-search" style="position:relative;">
+                        <label for="medicationSearch">Medication Name</label>
+                        <input type="text" id="medicationSearch" placeholder="Start typing medication name..." autocomplete="off">
+                        <div class="search-results" id="searchResults"></div>
+                    </div>
+                </div>
+
+                <!-- Selected Medications -->
+                <div class="form-section">
+                    <h3><i class="fas fa-pills"></i> Selected Medications</h3>
+                    <div id="selectedMedications">
+                        <p style="color: #64748b; text-align: center; padding: 20px;">No medications selected. Search and add medications above.</p>
+                    </div>
+                </div>
+
+                <!-- Pharmacy Selection -->
+                <div class="form-section">
+                    <h3><i class="fas fa-store"></i> Select Pharmacy</h3>
+                    <div class="pharmacy-selection">
+                        <div class="pharmacy-card" data-pharmacy="cvs">
+                            <div class="pharmacy-name">CVS Pharmacy</div>
+                            <div class="pharmacy-address">123 Main St, Downtown</div>
+                            <div class="pharmacy-hours">Open 24/7</div>
+                        </div>
+                        <div class="pharmacy-card" data-pharmacy="walgreens">
+                            <div class="pharmacy-name">Walgreens</div>
+                            <div class="pharmacy-address">456 Oak Ave, Midtown</div>
+                            <div class="pharmacy-hours">Mon-Sat: 8AM-10PM, Sun: 9AM-9PM</div>
+                        </div>
+                        <div class="pharmacy-card" data-pharmacy="rite-aid">
+                            <div class="pharmacy-name">Rite Aid</div>
+                            <div class="pharmacy-address">789 Elm St, Uptown</div>
+                            <div class="pharmacy-hours">Daily: 8AM-9PM</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Order Summary -->
+                <div class="order-summary" id="orderSummary" style="display: none;">
+                    <h3>Order Summary</h3>
+                    <div id="summaryItems"></div>
+                    <div class="summary-row">
+                        <span>Subtotal:</span>
+                        <span id="subtotal">$0.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Insurance Coverage:</span>
+                        <span id="insuranceCoverage">-$0.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Delivery Fee:</span>
+                        <span>$4.99</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Total:</span>
+                        <span id="totalAmount">$4.99</span>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-order">
+                    <i class="fas fa-shopping-cart"></i> Place Order
+                </button>
+            </form>
+        </div>
+
+        <!-- My Prescriptions Tab -->
+        <div id="my-prescriptions" class="tab-content">
+            <div class="prescription-list">
+                <div class="prescription-item">
+                    <div class="prescription-details">
+                        <h4>Lisinopril 10mg</h4>
+                        <div class="prescription-meta">
+                            Prescribed by Dr. Sarah Johnson • 30-day supply<br>
+                            Last filled: March 15, 2025 • Refills remaining: 2
+                        </div>
+                    </div>
+                    <div>
+                        <span class="status-badge status-active">Active</span>
+                        <button class="btn-reorder" style="margin-left: 10px;">Reorder</button>
+                    </div>
+                </div>
+                <div class="prescription-item">
+                    <div class="prescription-details">
+                        <h4>Metformin 500mg</h4>
+                        <div class="prescription-meta">
+                            Prescribed by Dr. Michael Chen • 90-day supply<br>
+                            Last filled: February 28, 2025 • Refills remaining: 1
+                        </div>
+                    </div>
+                    <div>
+                        <span class="status-badge status-pending">Pending</span>
+                        <button class="btn-reorder" style="margin-left: 10px;">Track Order</button>
+                    </div>
+                </div>
+                <div class="prescription-item">
+                    <div class="prescription-details">
+                        <h4>Vitamin D3 2000 IU</h4>
+                        <div class="prescription-meta">
+                            Prescribed by Dr. Emily Rodriguez • 60-day supply<br>
+                            Last filled: March 10, 2025 • Refills remaining: 3
+                        </div>
+                    </div>
+                    <div>
+                        <span class="status-badge status-ready">Ready for Pickup</span>
+                        <button class="btn-reorder" style="margin-left: 10px;">Reorder</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Refills Tab -->
+        <div id="refills" class="tab-content">
+            <div class="prescription-list">
+                <div class="prescription-item">
+                    <div class="prescription-details">
+                        <h4>Atorvastatin 20mg</h4>
+                        <div class="prescription-meta">
+                            Due for refill: March 25, 2025<br>
+                            Auto-refill enabled • CVS Pharmacy
+                        </div>
+                    </div>
+                    <div>
+                        <button class="btn-reorder">Refill Now</button>
+                    </div>
+                </div>
+                <div class="prescription-item">
+                    <div class="prescription-details">
+                        <h4>Omeprazole 20mg</h4>
+                        <div class="prescription-meta">
+                            Due for refill: March 30, 2025<br>
+                            Manual refill • Walgreens
+                        </div>
+                    </div>
+                    <div>
+                        <button class="btn-reorder">Refill Now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main script for tab navigation and form logic -->
+    <script>
+        // Tab switching logic
+        function switchTab(event, tabName) {
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+        }
+
+        // Medication search and order logic
+        const medications = [
+            { name: "Lisinopril 10mg", price: 25.99, generic: true },
+            { name: "Metformin 500mg", price: 18.50, generic: true },
+            { name: "Atorvastatin 20mg", price: 32.75, generic: true },
+            { name: "Omeprazole 20mg", price: 22.99, generic: true },
+            { name: "Vitamin D3 2000 IU", price: 15.99, generic: false },
+            { name: "Amlodipine 5mg", price: 19.99, generic: true },
+            { name: "Losartan 50mg", price: 28.50, generic: true },
+            { name: "Gabapentin 300mg", price: 35.75, generic: true },
+            { name: "Sertraline 50mg", price: 42.99, generic: true },
+            { name: "Levothyroxine 50mcg", price: 16.25, generic: true }
+        ];
+        let selectedMedications = [];
+        let selectedPharmacy = null;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const medicationSearch = document.getElementById('medicationSearch');
+            const searchResults = document.getElementById('searchResults');
+            const selectedMedicationsDiv = document.getElementById('selectedMedications');
+            const pharmacyCards = document.querySelectorAll('.pharmacy-card');
+            const prescriptionForm = document.getElementById('prescriptionForm');
+
+            // Medication search functionality
+            medicationSearch.addEventListener('input', function() {
+                const query = this.value.toLowerCase();
+                if (query.length < 2) {
+                    searchResults.style.display = 'none';
+                    return;
+                }
+                const filteredMeds = medications.filter(med => 
+                    med.name.toLowerCase().includes(query)
+                );
+                if (filteredMeds.length > 0) {
+                    searchResults.innerHTML = filteredMeds.map(med => 
+                        `<div class="search-result" data-medication='${JSON.stringify(med)}'>
+                            ${med.name} - $${med.price} ${med.generic ? '(Generic)' : '(Brand)'}
+                        </div>`
+                    ).join('');
+                    searchResults.style.display = 'block';
+                } else {
+                    searchResults.style.display = 'none';
+                }
+            });
+
+            // Handle medication selection
+            searchResults.addEventListener('click', function(e) {
+                if (e.target.classList.contains('search-result')) {
+                    const medication = JSON.parse(e.target.dataset.medication);
+                    addMedication(medication);
+                    medicationSearch.value = '';
+                    searchResults.style.display = 'none';
+                }
+            });
+
+            // Pharmacy selection
+            pharmacyCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    pharmacyCards.forEach(c => c.classList.remove('selected'));
+                    this.classList.add('selected');
+                    selectedPharmacy = this.dataset.pharmacy;
+                    updateOrderSummary();
+                });
+            });
+
+            // Form submission
+            prescriptionForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                if (selectedMedications.length === 0) {
+                    alert('Please add at least one medication');
+                    return;
+                }
+                if (!selectedPharmacy) {
+                    alert('Please select a pharmacy');
+                    return;
+                }
+                const submitButton = document.querySelector('.btn-order');
+                submitButton.disabled = true;
+                submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing Order...';
+                setTimeout(() => {
+                    alert('Prescription order submitted successfully! You will receive updates via email and SMS.');
+                    selectedMedications = [];
+                    selectedPharmacy = null;
+                    updateSelectedMedications();
+                    updateOrderSummary();
+                    pharmacyCards.forEach(c => c.classList.remove('selected'));
+                    prescriptionForm.reset();
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = '<i class="fas fa-shopping-cart"></i> Place Order';
+                }, 2000);
+            });
+
+            // Hide search results when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!medicationSearch.contains(e.target) && !searchResults.contains(e.target)) {
+                    searchResults.style.display = 'none';
+                }
+            });
+        });
+
+        function addMedication(medication) {
+            if (selectedMedications.find(med => med.name === medication.name)) {
+                alert('Medication already added');
+                return;
+            }
+            selectedMedications.push({
+                ...medication,
+                quantity: 1
+            });
+            updateSelectedMedications();
+            updateOrderSummary();
+        }
+
+        function removeMedication(medicationName) {
+            selectedMedications = selectedMedications.filter(med => med.name !== medicationName);
+            updateSelectedMedications();
+            updateOrderSummary();
+        }
+
+        function updateQuantity(medicationName, newQuantity) {
+            const medication = selectedMedications.find(med => med.name === medicationName);
+            if (medication && newQuantity > 0) {
+                medication.quantity = newQuantity;
+                updateSelectedMedications();
+                updateOrderSummary();
+            }
+        }
+
+        function updateSelectedMedications() {
+            const container = document.getElementById('selectedMedications');
+            if (selectedMedications.length === 0) {
+                container.innerHTML = '<p style="color: #64748b; text-align: center; padding: 20px;">No medications selected. Search and add medications above.</p>';
+                return;
+            }
+            container.innerHTML = selectedMedications.map(med => `
+                <div class="medication-item">
+                    <div class="medication-info">
+                        <h4>${med.name}</h4>
+                        <p>${med.generic ? 'Generic' : 'Brand'} • $${med.price} per unit</p>
+                        <div class="quantity-control">
+                            <button type="button" class="quantity-btn" onclick="updateQuantity('${med.name}', ${med.quantity - 1})">-</button>
+                            <input type="number" class="quantity-input" value="${med.quantity}" min="1" 
+                                   onchange="updateQuantity('${med.name}', parseInt(this.value))">
+                            <button type="button" class="quantity-btn" onclick="updateQuantity('${med.name}', ${med.quantity + 1})">+</button>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="medication-price">$${(med.price * med.quantity).toFixed(2)}</div>
+                        <button type="button" style="background: #ef4444; color: white; border: none; padding: 5px 10px; border-radius: 4px; margin-top: 10px; cursor: pointer;" 
+                                onclick="removeMedication('${med.name}')">Remove</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateOrderSummary() {
+            const orderSummary = document.getElementById('orderSummary');
+            const summaryItems = document.getElementById('summaryItems');
+            const subtotalEl = document.getElementById('subtotal');
+            const insuranceCoverageEl = document.getElementById('insuranceCoverage');
+            const totalAmountEl = document.getElementById('totalAmount');
+            if (selectedMedications.length === 0) {
+                orderSummary.style.display = 'none';
+                return;
+            }
+            const subtotal = selectedMedications.reduce((sum, med) => sum + (med.price * med.quantity), 0);
+            const insuranceCoverage = subtotal * 0.8; // 80% coverage
+            const deliveryFee = 4.99;
+            const total = subtotal - insuranceCoverage + deliveryFee;
+            summaryItems.innerHTML = selectedMedications.map(med => `
+                <div class="summary-row">
+                    <span>${med.name} (${med.quantity})</span>
+                    <span>$${(med.price * med.quantity).toFixed(2)}</span>
+                </div>
+            `).join('');
+            subtotalEl.textContent = `$${subtotal.toFixed(2)}`;
+            insuranceCoverageEl.textContent = `-$${insuranceCoverage.toFixed(2)}`;
+            totalAmountEl.textContent = `$${total.toFixed(2)}`;
+            orderSummary.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

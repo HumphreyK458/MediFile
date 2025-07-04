@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediFile - Login or Create Account</title>
+    <meta name="description" content="Login or create your MediFile account for secure healthcare management.">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #e0f7fa 0%, #f4f9fd 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .auth-container {
+            background: #fff;
+            border-radius: 22px;
+            box-shadow: 0 8px 32px rgba(37, 99, 235, 0.10);
+            max-width: 420px;
+            width: 100%;
+            padding: 36px 28px 28px 28px;
+            border: 1px solid #e0e7ef;
+        }
+        .auth-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 2rem;
+            font-weight: 900;
+            color: #2563eb;
+            justify-content: center;
+            margin-bottom: 18px;
+        }
+        .auth-logo i {
+            color: #10b981;
+        }
+        .auth-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 0;
+            margin-bottom: 28px;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1.5px solid #b6d4f7;
+            background: #e3f0fb;
+        }
+        .auth-tab {
+            flex: 1;
+            padding: 14px 0;
+            background: transparent;
+            border: none;
+            font-weight: 800;
+            color: #2563eb;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+        }
+        .auth-tab.active {
+            background: #2563eb;
+            color: #fff;
+        }
+        .auth-form {
+            display: none;
+            animation: fadeIn 0.4s;
+        }
+        .auth-form.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .auth-footer {
+            text-align: center;
+            margin-top: 24px;
+            color: #64748b;
+            font-size: 0.98rem;
+        }
+        .auth-footer a {
+            color: #2563eb;
+            text-decoration: underline;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-logo">
+            <i class="fas fa-heartbeat"></i>
+            <span>MediFile</span>
+        </div>
+        <div class="auth-tabs">
+            <button class="auth-tab active" id="loginTab" onclick="showAuthTab('login')">Login</button>
+            <button class="auth-tab" id="signupTab" onclick="showAuthTab('signup')">Create Account</button>
+        </div>
+        <!-- Login Form -->
+        <form id="loginForm" class="auth-form active" autocomplete="off">
+            <div class="form-group">
+                <label for="loginEmail">Email</label>
+                <input type="email" id="loginEmail" required>
+            </div>
+            <div class="form-group">
+                <label for="loginPassword">Password</label>
+                <input type="password" id="loginPassword" required>
+            </div>
+            <div class="form-options" style="display:flex;justify-content:space-between;align-items:center;">
+                <label class="checkbox-container" style="font-size:0.98rem;color:#2563eb;font-weight:600;">
+                    <input type="checkbox" id="rememberMe">
+                    <span class="checkmark"></span>
+                    Remember me
+                </label>
+                <a href="#" class="forgot-password">Forgot password?</a>
+            </div>
+            <button type="submit" class="btn-submit" style="width:100%;margin-top:18px;">Login</button>
+            <div class="two-factor" style="margin-top:12px;background:#e3f0fb;border-radius:8px;padding:10px 14px;color:#2563eb;font-size:0.98rem;">
+                <p>Enable two-factor authentication for enhanced security</p>
+                <button type="button" class="btn-secondary-small" onclick="setupTwoFactor()">Setup 2FA</button>
+            </div>
+        </form>
+        <!-- Signup Form -->
+        <form id="signupForm" class="auth-form" autocomplete="off">
+            <div class="user-type-selector">
+                <label>I am a:</label>
+                <div class="user-types" style="display:flex;gap:18px;margin-bottom:12px;">
+                    <label class="user-type">
+                        <input type="radio" name="userType" value="patient" checked>
+                        <span>Patient</span>
+                    </label>
+                    <label class="user-type">
+                        <input type="radio" name="userType" value="provider">
+                        <span>Healthcare Provider</span>
+                    </label>
+                    <label class="user-type">
+                        <input type="radio" name="userType" value="admin">
+                        <span>Administrator</span>
+                    </label>
+                </div>
+            </div>
+            <div class="form-row" style="display:flex;gap:18px;">
+                <div class="form-group" style="flex:1;">
+                    <label for="signupFirstName">First Name</label>
+                    <input type="text" id="signupFirstName" required>
+                </div>
+                <div class="form-group" style="flex:1;">
+                    <label for="signupLastName">Last Name</label>
+                    <input type="text" id="signupLastName" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="signupEmail">Email</label>
+                <input type="email" id="signupEmail" required>
+            </div>
+            <div class="form-group">
+                <label for="signupPassword">Password</label>
+                <input type="password" id="signupPassword" required>
+                <div class="password-strength" id="passwordStrength"></div>
+            </div>
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" id="confirmPassword" required>
+            </div>
+            <div class="form-options" style="margin-bottom:10px;">
+                <label class="checkbox-container" style="font-size:0.98rem;color:#2563eb;font-weight:600;">
+                    <input type="checkbox" id="agreeTerms" required>
+                    <span class="checkmark"></span>
+                    I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+                </label>
+            </div>
+            <button type="submit" class="btn-submit" style="width:100%;margin-top:10px;">Create Account</button>
+        </form>
+        <div class="auth-footer">
+            <span>
+                <a href="home.html" id="toHome">← Back to Home</a>
+            </span>
+        </div>
+    </div>
+    <script>
+        function showAuthTab(tab) {
+            document.getElementById('loginTab').classList.remove('active');
+            document.getElementById('signupTab').classList.remove('active');
+            document.getElementById('loginForm').classList.remove('active');
+            document.getElementById('signupForm').classList.remove('active');
+            if (tab === 'login') {
+                document.getElementById('loginTab').classList.add('active');
+                document.getElementById('loginForm').classList.add('active');
+            } else {
+                document.getElementById('signupTab').classList.add('active');
+                document.getElementById('signupForm').classList.add('active');
+            }
+        }
+        // Optional: mimic home.html modal button behavior
+        document.getElementById('toHome').onclick = function() {
+            window.location.href = 'home.html';
+        };
+        // Placeholder for 2FA setup
+        function setupTwoFactor() {
+            alert('Two-factor authentication setup coming soon!');
+        }
+        // Password strength indicator (simple example)
+        document.getElementById('signupPassword').addEventListener('input', function() {
+            const val = this.value;
+            const strength = document.getElementById('passwordStrength');
+            if (val.length < 6) {
+                strength.textContent = 'Weak';
+                strength.style.color = '#ef4444';
+            } else if (val.length < 10) {
+                strength.textContent = 'Medium';
+                strength.style.color = '#f59e42';
+            } else {
+                strength.textContent = 'Strong';
+                strength.style.color = '#10b981';
+            }
+        });
+    </script>
+</body>
+</html>
